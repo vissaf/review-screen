@@ -1,0 +1,151 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+body {
+  background: #263039;
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+}
+button{
+    cursor: pointer;
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+}
+li {
+  list-style: none;
+}
+.header {
+  background: #172027;
+  padding: 16px;
+}
+.section {
+  display: flex;
+  padding: 4px 0;
+  column-gap: 10px;
+  &-left {
+    background: #526069;
+    flex: 1;
+    width: 70vw;
+    overflow: auto;
+    height: calc(100vh - 56px);
+    padding: 30px;
+    & .document-page {
+      text-align: center;
+    }
+    & .document-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 430px;
+    }
+    & .button-handle {
+      background: #172027;
+      padding: 10px;
+      border-radius: 20px;
+      border: 2px solid #66737c;
+      button {
+        color: #fff;
+        background: transparent;
+        box-shadow: none;
+        border: navajowhite;
+        font-size: 23px;
+        width: 100%;
+      }
+    }
+  }
+  &-right {
+    width: 400px;
+    background: #172027;
+    overflow: auto;
+    height: calc(100vh - 56px);
+    display: flex;
+    flex-flow: column;
+    ul {
+      flex: 1;
+      padding: 0 20px;
+      overflow: auto;
+    }
+  }
+}
+.card {
+  background: #27313a;
+  border-radius: 4px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin: 10px;
+  &-left {
+    column-gap: 10px;
+  }
+  &-right {
+    & .dot {
+      img {
+        width: 5px;
+      }
+    }
+    input {
+      align-self: baseline;
+      width: 20px;
+      height: 20px;
+      margin-right: 20px;
+    }
+  }
+  &-initial {
+    background: #553038;
+    border-left: 4px solid #eb0c29;
+    border-radius: 4px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+  }
+  &-name {
+    margin-top: 10px;
+    span {
+      width: 100%;
+      display: inline-block;
+      font-style: italic;
+    }
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+.fields {
+  &-name {
+    margin-bottom: 20px;
+  }
+  &-list {
+    span {
+      padding: 10px 20px;
+      &:first-child {
+        color: #6baaef;
+        border-bottom: 3px solid #6baaef;
+      }
+    }
+  }
+  &-top {
+    padding: 20px;
+  }
+  &-bottom {
+    padding: 20px;
+    justify-content: space-between;
+    border-top: 2px solid #4d5760;
+    button {
+      background: #27313a;
+      border: none;
+      color: #fff;
+      padding: 10px 20px;
+     
+    }
+  }
+}

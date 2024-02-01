@@ -7,7 +7,7 @@ const DocumentViewer = ({ pagesData, sectionsData }) => {
   // A state variable that stores the information of boxes
   const [boxes, setBoxes] = useState([]);
   // A state variable that stores pages array
-  const [pages, setPages] = useState([]);
+  const [pages, setPages] = useState(["a2cbec1124234a6d846f908ba9531a2e-1.jpg"]);
   // A state variable that stores the current page index
   const [pageIndex, setPageIndex] = useState(0);
   // A state variable that stores the current zoom level
@@ -30,7 +30,7 @@ const DocumentViewer = ({ pagesData, sectionsData }) => {
     const pageArr = pagesData.data?.documents[0]?.pages?.map(
       (page) => page?.image?.url
     );
-    setPages(pageArr);
+    // setPages(pageArr);
     console.log(pageArr, pagesData, "page");
   }, [pagesData]);
 
@@ -84,7 +84,7 @@ const DocumentViewer = ({ pagesData, sectionsData }) => {
         ) : null}
       </div>
       <div className="document-controls">
-        <button onClick={handlePrevPage} disabled={pageIndex === 0}>
+        {/* <button onClick={handlePrevPage} disabled={pageIndex === 0}>
           Prev
         </button>
         <button
@@ -92,16 +92,18 @@ const DocumentViewer = ({ pagesData, sectionsData }) => {
           disabled={pageIndex === pages?.length - 1}
         >
           Next
-        </button>
+        </button> */}
+        <div className="button-handle">
         <button onClick={handleZoomIn} disabled={zoom === 1}>
-          Zoom In
+         +
         </button>
         <button onClick={handleZoomOut} disabled={zoom === 0.5}>
-          Zoom Out
+         -
         </button>
-        <button onClick={handleFit} disabled={zoom === 0.5}>
+      </div>
+        {/* <button onClick={handleFit} disabled={zoom === 0.5}>
           Fit
-        </button>
+        </button> */}
       </div>
     </div>
   );

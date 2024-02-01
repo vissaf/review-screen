@@ -40,15 +40,21 @@ function ReviewScreen() {
   return (
     <div>
       <Header />
+      <div className="section">
+      <div className="section-left">
       {pagesData && sectionsData ? (
         <DocumentViewer
           pagesData={pagesData}
           sectionsData={sectionsData?.data?.sections[0]}
         />
       ) : null}
+      </div>
+      <div className="section-right">
       {sectionsData ? (
         <RightSidebar data={sectionsData?.data?.sections[0]} />
       ) : null}
+    </div>
+      </div>
     </div>
   );
 }
