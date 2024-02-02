@@ -15,7 +15,7 @@ const DocumentViewer = ({
   // A state variable that stores the current page index. Would be used if multiple pages were there.
   const [pageIndex, setPageIndex] = useState(0);
   // A state variable that stores the current zoom level
-  const [zoom, setZoom] = useState();
+  const [zoom, setZoom] = useState(0.25);
 
   useEffect(() => {
     if (pagesData?.length) {
