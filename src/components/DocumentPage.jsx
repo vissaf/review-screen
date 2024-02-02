@@ -1,7 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 
-const DocumentPage = ({ src, zoom, boxes }) => {
+const DocumentPage = ({
+  src,
+  zoom,
+  boxes,
+  hoveredItemId,
+  onItemHover,
+  onItemHoverLeave,
+}) => {
   const canvasRef = useRef(null);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -29,18 +36,39 @@ const DocumentPage = ({ src, zoom, boxes }) => {
       );
 
       if (boxes && boxes.length > 0) {
-        ctx.strokeStyle = "red";
-        ctx.lineWidth = 2;
         boxes.forEach((box) => {
+          // Check if the current box is the one being hovered
+          if (hoveredItemId === box.id) {
+            ctx.strokeStyle = "yellow"; // Highlight border color
+            ctx.fillStyle = "rgba(255, 255, 0, 0.5)"; // Transparent yellow fill
+          } else {
+            ctx.strokeStyle = box.strokeColor;
+            ctx.fillStyle = box.fillColor;
+          }
+          ctx.lineWidth = 2;
+          canvasRef.current.addEventListener(
+            "mouseenter",
+            () => onItemHover(box.id),
+            false
+          );
+          canvasRef.current.addEventListener(
+            "mouseleave",
+            onItemHoverLeave,
+            false
+          );
           const scaledX = box.x * zoom;
           const scaledY = box.y * zoom;
-          const scaledW = box.w * zoom;
-          const scaledH = box.h * zoom;
-          ctx.strokeRect(scaledX, scaledY, scaledW, scaledH);
+          const scaledW = (box.w - box.x) * zoom; // Width calculation
+          const scaledH = (box.h - box.y) * zoom; // Height calculation
+
+          ctx.beginPath();
+          ctx.rect(scaledX, scaledY, scaledW, scaledH);
+          ctx.fill();
+          ctx.stroke();
         });
       }
     };
-  }, [src, zoom, boxes, imageLoaded]); // Depend on imageLoaded to re-trigger effect
+  }, [src, zoom, boxes, imageLoaded, hoveredItemId]); // Depend on imageLoaded to re-trigger effect
 
   return <canvas ref={canvasRef} />;
 };
