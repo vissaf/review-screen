@@ -15,17 +15,16 @@ const DocumentViewer = ({
   // A state variable that stores the current page index. Would be used if multiple pages were there.
   const [pageIndex, setPageIndex] = useState(0);
   // A state variable that stores the current zoom level
-  const [zoom, setZoom] = useState(0.25);
+  const [zoom, setZoom] = useState(0.35);
 
   useEffect(() => {
     if (pagesData?.length) {
       const pageArr = pagesData?.map((page) => page?.image?.url);
       setPages([...pageArr]);
       console.log(pageArr, pagesData, "page");
-      const initialZoom = calculateZoom(
-        pagesData[0].image.height,
-        pagesData[0].image.width
-      );
+      const initialZoom =
+        calculateZoom(pagesData[0].image.height, pagesData[0].image.width) /
+        1.5;
       setZoom(initialZoom);
     }
   }, [pagesData]);
