@@ -13,3 +13,4 @@
 - There is no global state library used in the app since prop drilling and passing props were apt for the application as the flow of data was not complex at all.
 - The Performance of the hosted page on Lighthouse is 95.
 - The project is hosted on Netlify and can be found at: [Review Screen - Docsumo](https://resilient-griffin-f75a36.netlify.app/)
+- Instead of having a dropdown to change the zoom levels, a floating zoom button is implemented as shown in the design image.
