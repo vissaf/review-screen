@@ -8,6 +8,13 @@ function ReviewScreen() {
   const [pagesData, setPagesData] = useState({});
   const [boxesData, setBoxesData] = useState([]);
   const [hoveredItemId, setHoveredItemId] = useState(null);
+  // State to manage the theme (false for light mode, true for dark mode)
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  // Function to toggle the theme
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+  };
 
   const handleMouseEnter = (id) => {
     setHoveredItemId(id);
@@ -15,6 +22,29 @@ function ReviewScreen() {
 
   const handleMouseLeave = () => {
     setHoveredItemId(null);
+  };
+
+  const handleSectionsData = (id) => {
+    const sectionsArr = sectionsData?.data?.sections[0]?.children;
+    if (sectionsArr) {
+      // Filter out the section with the specified id
+      const updatedSectionsArr = sectionsArr.filter(
+        (section) => section.id !== id
+      );
+      // Update the sectionsData state with the updated sections array
+      setSectionsData((prevState) => ({
+        ...prevState,
+        data: {
+          ...prevState.data,
+          sections: [
+            {
+              ...prevState.data.sections[0],
+              children: updatedSectionsArr,
+            },
+          ],
+        },
+      }));
+    }
   };
 
   useEffect(() => {
@@ -68,8 +98,8 @@ function ReviewScreen() {
   }
 
   return (
-    <div>
-      <Header />
+    <div className={`${isDarkMode ? "" : "light-mode"}`}>
+      <Header toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
       <div className="section">
         <div className="section-left">
           {pagesData && sectionsData ? (
@@ -90,6 +120,7 @@ function ReviewScreen() {
               hoveredItemId={hoveredItemId}
               onItemHover={handleMouseEnter}
               onItemHoverLeave={handleMouseLeave}
+              handleDelete={handleSectionsData}
             />
           ) : null}
         </div>

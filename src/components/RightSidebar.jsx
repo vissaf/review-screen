@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { titleToInitials } from "../utils/common";
 
 function RightSidebar({
@@ -8,12 +8,15 @@ function RightSidebar({
   hoveredItemId,
   onItemHover,
   onItemHoverLeave,
+  handleDelete,
 }) {
-  // State to manage the checked status of checkboxes
   const [checkedState, setCheckedState] = useState({});
   const [selectAll, setSelectAll] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState({});
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const dropdownRef = useRef(null);
 
-  // Helper function to find the fillColor for a given section by ID
   const findFillColorById = (sectionId, type) => {
     const box = boxesData[0]?.find((box) => box.id === sectionId);
     if (type === "border") {
@@ -22,7 +25,6 @@ function RightSidebar({
     return box ? box.fillColor : null;
   };
 
-  // Effect to initialize or update the checkedState when sectionsData changes
   useEffect(() => {
     if (sectionsData) {
       const initialState = sectionsData.reduce((acc, section) => {
@@ -33,7 +35,6 @@ function RightSidebar({
     }
   }, [sectionsData, selectAll]);
 
-  // Effect to update selectAll when all checkboxes are manually selected or deselected
   useEffect(() => {
     const areAllSelected = sectionsData?.every(
       (section) => checkedState[section.id]
@@ -41,7 +42,19 @@ function RightSidebar({
     setSelectAll(areAllSelected);
   }, [checkedState, sectionsData]);
 
-  // Handler for checkbox change
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownVisible({});
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleCheckboxChange = (sectionId) => {
     setCheckedState((prevState) => ({
       ...prevState,
@@ -49,15 +62,37 @@ function RightSidebar({
     }));
   };
 
-  // Handler for Select All button
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
   };
 
-  // Check if at least one checkbox is selected
   const isAnyCheckboxSelected = Object.values(checkedState).some(
     (checked) => checked
   );
+
+  const toggleDropdown = (sectionId) => {
+    setDropdownVisible((prev) => ({
+      ...prev,
+      [sectionId]: !prev[sectionId],
+    }));
+  };
+
+  const handleConfirmClick = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleModalConfirm = () => {
+    setShowConfirmModal(false);
+    setShowSuccessModal(true);
+  };
+
+  const handleModalCancel = () => {
+    setShowConfirmModal(false);
+  };
+
+  const handleSuccessOk = () => {
+    setShowSuccessModal(false);
+  };
 
   return (
     <>
@@ -107,8 +142,24 @@ function RightSidebar({
                       checked={checkedState[section.id] || false}
                       onChange={() => handleCheckboxChange(section.id)}
                     />
-                    <div className="dot">
+                    <div
+                      className="dot"
+                      onClick={() => toggleDropdown(section.id)}
+                    >
                       <img src="../../dot.png" />
+                      {/* Dropdown menu */}
+                      {dropdownVisible[section.id] && (
+                        <div className="dropdown-menu" ref={dropdownRef}>
+                          <button
+                            onClick={() => {
+                              handleDelete(section.id);
+                              setDropdownVisible({});
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </li>
@@ -120,8 +171,27 @@ function RightSidebar({
         <button onClick={handleSelectAll}>
           {selectAll ? "Deselect All" : "Select All"}
         </button>
-        <button disabled={!isAnyCheckboxSelected}>Confirm</button>
+        <button disabled={!isAnyCheckboxSelected} onClick={handleConfirmClick}>
+          Confirm
+        </button>
       </div>
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <div className="modal">
+          <p>Are you sure you want to confirm the selected fields?</p>
+          <div className="modal-button">
+            <button onClick={handleModalConfirm}>Confirm</button>
+            <button onClick={handleModalCancel}>Cancel</button>
+          </div>
+        </div>
+      )}
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="modal">
+          <p>Fields confirmed and processed successfully!</p>
+          <button onClick={handleSuccessOk}>OK</button>
+        </div>
+      )}
     </>
   );
 }

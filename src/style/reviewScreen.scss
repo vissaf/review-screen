@@ -14,7 +14,7 @@ button {
   cursor: pointer;
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 0.4;
   }
 }
 li {
@@ -23,6 +23,15 @@ li {
 .header {
   background: #172027;
   padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  button {
+    background: #27313a;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+  }
 }
 .section {
   display: flex;
@@ -33,7 +42,7 @@ li {
     flex: 1;
     width: 70vw;
     overflow: auto;
-    height: calc(100vh - 56px);
+    height: calc(100vh - 67px);
     padding: 30px;
     & .document-page {
       text-align: center;
@@ -52,7 +61,7 @@ li {
         color: #fff;
         background: transparent;
         box-shadow: none;
-        border: navajowhite;
+        border: none;
         font-size: 23px;
         width: 100%;
       }
@@ -62,7 +71,7 @@ li {
     width: 400px;
     background: #172027;
     overflow: auto;
-    height: calc(100vh - 56px);
+    height: calc(100vh - 67px);
     display: flex;
     flex-flow: column;
     ul {
@@ -80,11 +89,14 @@ li {
   justify-content: space-between;
   font-size: 14px;
   margin: 10px;
+  position: relative;
+  border: 2px solid transparent;
   &-left {
     column-gap: 10px;
   }
   &-right {
     & .dot {
+      cursor: pointer;
       img {
         width: 5px;
       }
@@ -148,8 +160,84 @@ li {
     }
   }
 }
+.light-mode {
+  background-color: #c3c4c4;
+  color: black;
+
+  .section-right,
+  .header {
+    background: #fcfcfc;
+  }
+  .card {
+    background: #c3c4c4;
+  }
+  .fields-bottom button,
+  .button-handle,
+  .header button {
+    color: #000;
+    background: #c3c4c4;
+  }
+  .button-handle button {
+    color: #000;
+  }
+}
+
 .highlight {
   // Example highlight styles
   border: 2px solid yellow;
-  background-color: rgba(255, 255, 0, 0.2);
+  background: rgba(255, 255, 0, 0.2) !important;
+}
+.dropdown-menu {
+  position: absolute;
+  right: 3px;
+  bottom: 7px;
+  button {
+    background: #b0302b;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  padding: 30px;
+  background-color: #263039;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &-button {
+    display: flex;
+    justify-content: space-between;
+  }
+  p {
+    margin-bottom: 30px;
+    color: #fff;
+  }
+}
+
+.modal button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal button:first-child {
+  margin-right: 10px;
+}
+
+.modal button:hover {
+  background-color: #0056b3;
 }
